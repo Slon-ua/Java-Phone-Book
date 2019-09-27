@@ -1,0 +1,39 @@
+plugins {
+    id 'io.franzbecker.gradle-lombok'  version '3.1.0'
+    id 'java'
+}
+
+group 'Java-Phone-Book'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.3.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.3.1'
+
+    compile group: 'org.slf4j', name:'slf4j-api', version: '1.7.25'
+    compile group: 'ch.qos.logback', name:'logback-classic', version: '1.2.3'
+    compile group: 'ch.qos.logback', name:'logback-core', version: '1.2.3'
+
+}
+
+test {
+    useJUnitPlatform()
+
+    systemProperties System.getProperties()   //проброс комант, присвоение переменных из консоли в Гредел
+
+    testLogging {
+        showStandardStreams = true //для отражения ответа РЕСТ-ашурда
+        events "PASSED", "FAILED", "SKIPPED"
+        exceptionFormat = 'full'  //более полный лог об ошибке
+    }
+
+    test.outputs.upToDateWhen {false} //строчка отвечает за то, что код будет запускатся всегда, даже при успешном прохождении. Тут же настраивается частота проведения тестов
+
+}
+
