@@ -1,6 +1,7 @@
 package PhoneBook.tests;
 
 import PhoneBook.PhoneBookFunction.AddContact;
+import PhoneBook.PhoneBookFunction.DeleteContact;
 import PhoneBook.PhoneBookFunction.LoadContacts;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,8 +13,7 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.TreeMap;
 
-//import static org.junit.Assert.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+
 
 @Slf4j
 public class EditContactTest {
@@ -22,6 +22,9 @@ public class EditContactTest {
     Scanner input = new Scanner(System.in);
     LoadContacts loadContacts = new LoadContacts();
     AddContact addContact = new AddContact();
+    DeleteContact deleteContact =new DeleteContact();
+
+    private String[] validCredentials = { "name1", "12345"};
 
     @BeforeEach
     void canLoadContactsFromBook() {
@@ -35,13 +38,19 @@ public class EditContactTest {
     }
 
     @Test
-    void canAddNewContact() {
+    void canAddNewContactWithValidCredentials() {
         log.info("About to check condition - Add new contact");
         assert (contacts.size()>0);
         int size = contacts.size();
-        int number = 123+size;
-        String name = "xName"+size;
-        addContact.addContactNameNumber(contacts,name, String.valueOf(number));
+        addContact.addContactNameNumber(contacts,this.validCredentials[0], this.validCredentials[1]);
         assert (contacts.size() == size+1);
+    }
+    @Test
+    void canDeleteContactWithValidCredentials() {
+        log.info("About to check condition - Delete contact");
+        assert (contacts.size()>0);
+        int size = contacts.size();
+        deleteContact.deleteContactName(contacts,validCredentials[0]);
+        assert (contacts.size() == --size);
     }
 }
